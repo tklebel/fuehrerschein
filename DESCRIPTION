@@ -5,6 +5,7 @@ Version: 0.1.0.9000
 Authors@R: person("Thomas", "Klebel", email = "thomas.klebel@edu.uni-graz.at",
   role = c("aut", "cre"))
 Description: Analyse der Fragebögen zum Führerscheinbesitz. Scripte, Daten,
-  Grafiken.
+    Grafiken.
 License: MIT + file LICENSE
 LazyData: TRUE
+RoxygenNote: 5.0.1
