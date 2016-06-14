@@ -8,4 +8,6 @@ Description: Analyse der Fragebögen zum Führerscheinbesitz. Scripte, Daten,
     Grafiken.
 License: MIT + file LICENSE
 LazyData: TRUE
+Depends:
+    R (>= 3.1.0)
 RoxygenNote: 5.0.1
