@@ -1,0 +1,32 @@
+---
+title: "Deskriptive Statistiken"
+author: "Thomas Klebel"
+date: "14 Juni 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(ggplot2)
+library(dplyr)
+library(purrr)
+library(fuehrerschein)
+library(tidyr)
+
+refactored <- readr::read_rds("../data/refactored.rds")
+
+labels <- refactored %>%
+  attributes() %>%
+  .[c("names", "variable.labels")] %>%
+  bind_cols()
+```
+
+# Factors
+
+```{r factors}
+refactored %>%
+  select(v3, v4, v8:v10, v12) %>%
+  plot_factors(.labels = labels)
+```
+
