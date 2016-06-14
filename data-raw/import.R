@@ -5,9 +5,6 @@ library(dplyr)
 raw_dat <- read_excel("data-raw/rohdaten.xlsx")
 labels <- read_excel("data-raw/rohdaten.xlsx", sheet = "labels")
 
-# Set attribute for better display
-attr(raw_dat, "variable.labels") <- labels[["langname"]]
-
 # Convert to correct type
 correct_type <- raw_dat %>%
   mutate_if(is.character, as.factor) %>%
@@ -39,4 +36,7 @@ refactored <- correct_type %>%
                                       "Lehrabschluss",
                                       "Pflichtschulabschluss")))
 
-devtools::use_data(refactored)
+# Set attribute for better display
+attr(refactored, "variable.labels") <- labels[["langname"]]
+
+readr::write_rds(refactored, "data/refactored.rds")
