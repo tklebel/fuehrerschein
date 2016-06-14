@@ -1,0 +1,10 @@
+Package: fuehrerschein
+Type: Package
+Title: Analyse der Fragebögen zum Führerscheinbesitz
+Version: 0.1.0
+Authors@R: person("Thomas", "Klebel", email = "thomas.klebel@edu.uni-graz.at",
+  role = c("aut", "cre"))
+Description: Analyse der Fragebögen zum Führerscheinbesitz. Scripte, Daten,
+  Grafiken.
+License: MIT + file LICENSE
+LazyData: TRUE
