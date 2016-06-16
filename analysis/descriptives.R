@@ -19,7 +19,9 @@ refactored %>%
   ggplot(aes(v3)) +
   geom_bar() +
   scale_x_discrete(drop = F) +
-  labs(title = find_label(labels, "v3"))
+  labs(title = find_label(labels, "v3"),
+       x = NULL, y = "Anzahl der Befragten") +
+  theme_bw()
 
 
 # Map function over all factors ----
