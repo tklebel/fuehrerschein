@@ -2,7 +2,7 @@ library(readxl)
 library(dplyr)
 
 # Import data and labels
-raw_dat <- read_excel("data-raw/rohdaten.xlsx")
+raw_dat <- read_excel("data-raw/rohdaten.xlsx", na = "NA")
 labels <- read_excel("data-raw/rohdaten.xlsx", sheet = "labels")
 
 # Convert to correct type
@@ -16,7 +16,7 @@ refactored <- correct_type %>%
                                     "30-34", "35-39", "40-44", "45 u. älter")),
          v6 = factor(v6, levels = c("Ich nutze die Möglichkeiten des Internets intensiv und bin daher nicht auf ein Auto angewiesen",
                                     "Ich nutze Mitfahrgelegenheiten",
-                                    "Ich halte die negativen Umweltfolgen für zu gravierend",
+                                    "Ich halte die negativen Umweltfolgen des Autofahrens für zu gravierend",
                                     "Ich halte die negativen sozialen Folgen des Autofahrens für zu gravierend",
                                     "Ich habe Angst vorm Autofahren",
                                     "Ich habe keine Lust Auto zu fahren",
