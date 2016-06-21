@@ -40,6 +40,14 @@ refactored <- correct_type %>%
 refactored <- refactored %>%
   filter(!id %in% c(6, 8, 10, 21, 39, 42, 46, 49, 74, 81))
 
+
+# alter kategorisieren
+refactored <- refactored %>%
+  mutate(alter = case_when(as.numeric(.$v3) < 5 ~ "unter 20",
+                         as.numeric(.$v3) > 6 ~ "30 oder älter",
+                         TRUE ~ "20-29"),
+       alter = factor(alter, levels = c("unter 20", "20-29", "30 oder älter")))
+
 # Set attribute for better display
 attr(refactored, "variable.labels") <- labels[["langname"]]
 
