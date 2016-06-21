@@ -2,8 +2,8 @@ library(readxl)
 library(dplyr)
 
 # Import data and labels
-raw_dat <- read_excel("data-raw/rohdaten.xlsx", na = "NA")
-labels <- read_excel("data-raw/rohdaten.xlsx", sheet = "labels")
+raw_dat <- read_excel("../data-raw/rohdaten.xlsx", na = "NA")
+labels <- read_excel("../data-raw/rohdaten.xlsx", sheet = "labels")
 
 # Convert to correct type
 correct_type <- raw_dat %>%
@@ -39,4 +39,4 @@ refactored <- correct_type %>%
 # Set attribute for better display
 attr(refactored, "variable.labels") <- labels[["langname"]]
 
-readr::write_rds(refactored, "data/refactored.rds")
+readr::write_rds(refactored, "../data/refactored.rds")
