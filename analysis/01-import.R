@@ -49,6 +49,6 @@ refactored <- refactored %>%
        alter = factor(alter, levels = c("unter 20", "20-29", "30 oder älter")))
 
 # Set attribute for better display
-attr(refactored, "variable.labels") <- labels[["langname"]]
+attr(refactored, "variable.labels") <- c(labels[["langname"]], "alter kategorisiert")
 
 readr::write_rds(refactored, "data/refactored.rds")
