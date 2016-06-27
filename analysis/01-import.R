@@ -34,7 +34,11 @@ refactored <- correct_type %>%
                                       "Matura",
                                       "Berufsbildende Schule",
                                       "Lehrabschluss",
-                                      "Pflichtschulabschluss")))
+                                      "Pflichtschulabschluss")),
+         v8 = factor(v8, levels = c("In weniger als einem Jahr",
+                                    "In ein bis fünf Jahren",
+                                    "In mehr als fünf Jahren",
+                                    "Nie")))
 
 # einzelne Fragebögen aussortieren
 refactored <- refactored %>%
