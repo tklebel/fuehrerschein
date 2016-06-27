@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, fig.width = 11, fig.height = 8)
 
 library(ggplot2)
 library(dplyr)
@@ -25,8 +25,108 @@ labels <- refactored %>%
 # Factors
 
 ```{r factors}
-refactored %>%
-  select(v3, v4, v8:v10, v12) %>%
-  plot_factors(.labels = labels)
+# refactored %>%
+#   select(v3, v4, v8:v10, v12) %>%
+#   plot_factors(.labels = labels)
 ```
+
+
+# Gründe
+```{r gründe}
+pdata <- refactored %>% 
+  count(v6) %>% 
+  filter(!is.na(v6)) %>% 
+  mutate(perc = n/sum(n),
+         v6 = stringr::str_wrap(v6, width = 50))
+
+ggplot(pdata, aes(reorder(v6, perc), perc)) +
+  geom_bar(stat = "identity", fill = "firebrick3") +
+  theme_bw() +
+  coord_flip() +
+  scale_y_continuous(labels = scales::percent) +
+  labs(x = NULL,
+       y = "Anteil der Befragten",
+       title = "Hauptgrund, keinen Führerschein zu haben",
+       caption = paste0("N = ", sum(pdata$n)))
+
+```
+
+Für die folgende Grafik wurden zwecks der Übersichtlichkeit jene Gründe
+ausgewählt, die von mehr als fünf 
+Befragten genannt wurden.
+
+```{r reduzierte gründe}
+pdata <- refactored %>% 
+  group_by(v4) %>% 
+  count(v6) %>% 
+  mutate(perc = n/sum(n),
+         v6 = stringr::str_wrap(v6, width = 50)) %>% 
+  group_by(v6) %>% 
+  filter(sum(n) > 5) %>% 
+  group_by(v4)
+
+# Überprüfen: ist das wirklich so schön kongruent zwischen Frauen und Männern?
+# Jap
+ggplot(pdata, aes(v4, perc, fill = reorder(v6, 1 - perc))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_bw() +
+  scale_y_continuous(labels = scales::percent) +
+  labs(x = NULL,
+       y = "Anteil der Befragten",
+       fill = NULL,
+       title = "Hauptgründe, keinen Führerschein zu haben",
+       caption = paste0("N = ", sum(pdata$n))) +
+  scale_fill_brewer(palette = "Set1")
+
+```
+
+Erstaunlicherweise bleibt die Reihenfolge bei Männern und Frauen gleich. Der
+einzige Unterschied zeigt sich darin, dass die ausgewählten Gründe bei den Männern
+für 76% der Befragten relevant sind, bei den Frauen für 70%. Für die Frauen spielen
+also andere Gründe eine stärkere Rolle.
+
+## Hauptgründe nach drei Altersgruppen
+
+
+# Sekundäre Gründe
+
+```{r sekundäre gründe}
+pdata <- refactored %>%
+  select(starts_with("v7"), -v7q) %>%
+  gather(var, wert) %>%
+  group_by(var) %>%
+  filter(var != "v7a", !is.na(wert)) %>%
+  rename(names = var) %>%
+  left_join(labels) %>%
+  mutate(langname = stringr::str_wrap(variable.labels, 50),
+         median = median(wert))
+
+
+p_labels <- pdata %>%
+  mutate(n = n()) %>%
+  ungroup() %>%
+  select(n, langname, median) %>%
+  distinct() %>%
+  mutate(label = paste0("n = ", n)) %>%
+  arrange(desc(median), langname)
+
+
+rev_median <- function(x) {
+  res <- median(x)
+  -res
+}
+
+ggplot(pdata, aes(reorder(langname, wert, FUN = "rev_median"), wert)) +
+  coord_flip() +
+  geom_boxplot() +
+  annotate("text", x = 1:15, y = 0, label = p_labels$label, fontface = "italic",
+           family = "mono") +
+  geom_jitter(width = .4, height = .2, alpha = .5, colour = "firebrick2") +
+  theme_bw() +
+  scale_y_continuous(limits = c(0, NA), breaks = seq(1, 15, 2)) +
+  labs(x = NULL,
+       y = "Vergebener Rang",
+       title = "Mittlere Bedeutung der einzelnen Gründe")
+```
+
 
