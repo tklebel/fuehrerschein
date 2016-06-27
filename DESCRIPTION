@@ -10,4 +10,13 @@ License: MIT + file LICENSE
 LazyData: TRUE
 Depends:
     R (>= 3.1.0)
+Imports:
+    ggplot2,
+    dplyr,
+    tidyr,
+    purrr,
+    readr,
+    stringr,
+    ggthemes,
+    crosstabr
 RoxygenNote: 5.0.1
